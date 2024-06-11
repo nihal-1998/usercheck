@@ -12,84 +12,124 @@
         th, td {
             padding: 10px;
         }
+       
     </style>
+
+
 </head>
 <body>
     <body>
+       
         <p>Debit Sum: {{ debit_sum }}</p>
         <p>Credit Sum: {{ credit_sum }}</p>
         <p>Difference: {{ difference }}</p>
         
-
-        <!-- <h2>Winning Links</h2>
-            {% if winnings_links %}
-            <table>
-                <tr>
-                    
-                    <th>#</th>
-                    <th>Contest ID</th>
-                   
-                    <th>Link</th>
-                    
-                </tr>
-                {% for link in winnings_links %}
-                <tr>
-                    <td>{{ loop.index }}</td> 
-                    <td>{{ link.split('/')[-1] }}</td>
-                   
-                    <td><a href="{{ link }}" target="_blank">{{ link }}</a></td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% else %}
-            <p>No winnings links to display.</p>
-            {% endif %} -->
-
             <h2>Winning Links</h2>
-            {% if winnings_info %}
-            <table>
-                <tr>
-                    <th>#</th>
-                    <th>Contest ID</th>
-                    <th>Link</th>
-                    <th>Transaction Type</th>
-                </tr>
-                {% for win in winnings_info %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ win.contest_id }}</td>
-                    <td><a href="{{ win.link }}" target="_blank">{{ win.link }}</a></td>
-                    <td>{{ win.transaction_type }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% else %}
-            <p>No winnings links to display.</p>
-            {% endif %}
+                {% if winnings_info %}
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Link</th>
+                        <th>Winning Amount</th>
+                        <th>Transaction Type</th>
+                        <th>Transaction Time</th>
+                        <th>Fixture Display Name</th>
+                        <th>Contest Name</th>
+                        <th>Fixture Start Date</th>
+                        <th>Total Count</th>
+                        <th>Win & Refund Count</th>
+                        <th>Entry Fee</th>
+                    </tr>
+                    {% for win in winnings_info %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><a href="{{ win.link }}" target="_blank">{{ win.contest_id }}</a></td>
+                        <td>{{ win.amount }}</td>
+                        <td>{{ win.transaction_type }}</td>
+                        <td>{{ win.transaction_time }}</td>
+                        <td>{{ win.fixture_display_name }}</td>
+                        <td>{{ win.contest_name }}</td>
+                        <td>{{ win.fixture_start_date }}</td>
+                        <td>{{ win.total_count }}</td>
+                        <td>{{ win.Win_Ref_count }}</td>
+                        <td>{{ win.EntryFee_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>No winnings links to display.</p>
+                {% endif %}
+
             
 
             <h2>Refund Links</h2>
-            {% if winnings_info %}
-            <table>
-                <tr>
-                    <th>#</th>
-                    <th>Contest ID</th>
-                    <th>Link</th>
-                    <th>Transaction Type</th>
-                </tr>
-                {% for refund in refund_info %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ refund.contest_id }}</td>
-                    <td><a href="{{ refund.link }}" target="_blank">{{ refund.link }}</a></td>
-                    <td>{{ refund.transaction_type }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-            {% else %}
-            <p>No winnings links to display.</p>
-            {% endif %}
-            
+                {% if refund_info %}
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Contest ID</th>
+                        <th>Transaction Type</th>
+                        <th>Refund Amount</th>
+                        <th>Transaction Time</th>
+                        <th>Fixture Display Name</th>
+                        <th>Contest Name</th>
+                        <th>Fixture Start Date</th>
+                        <th>Total Count</th>
+                        <th>Win & Refund Count</th>
+                        <th>Entry Fee</th>
+                    </tr>
+                    {% for refund in refund_info %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <!-- <td>{{ refund.contest_id }}</td> -->
+                         <td><a href="{{ refund.link }}" target="_blank">{{ refund.contest_id }}</a></td> 
+                        
+                         
+                        <td>{{ refund.amount }}</td>
+                        <td>{{ refund.transaction_type }}</td>
+                        <td>{{ refund.transaction_time }}</td>
+                        <td>{{ refund.fixture_display_name }}</td>
+                        <td>{{ refund.contest_name }}</td>
+                        <td>{{ refund.fixture_start_date }}</td>
+                        <td>{{ refund.total_count }}</td>
+                        <td>{{ refund.Win_Ref_count }}</td>
+                        <td>{{ refund.EntryFee_count }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <p>No Refund links to display.</p>
+                {% endif %}
+
+
+                <!-- Withdrawal -->
+                <h2>Withdrawal, Latest Withdrawal date - {{ latest_withdrawal_date }}</h2>
+                    {% if Withdrawal_info %}
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Amount</th>
+                            <th>type</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for Withdrawal in Withdrawal_info %}
+                        <tr>
+                            <td>{{ loop.index }}</td> <!-- Adds a row number starting at 1 -->
+                            <td>{{ Withdrawal.amount }}</td>
+                            <td>{{ Withdrawal.transaction_type }}</td>
+                            <td>{{ Withdrawal.transaction_time }}</td>
+                            <td>{{ Withdrawal.transaction_status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p>No Withdrawal errors.</p>
+                    {% endif %}
+
+
+                    <!-- Error -->
+
             <h2>Validation Errors</h2>
             {% if validation_errors %}
             <table>
@@ -100,13 +140,15 @@
                 {% for error in validation_errors %}
                 <tr>
                     <td>{{ loop.index }}</td> <!-- Adds a row number starting at 1 -->
-                    <td>{{ error }}</td>
+                    <td>{{ error.error_message }}</td>
                 </tr>
                 {% endfor %}
             </table>
             {% else %}
             <p>No validation errors.</p>
             {% endif %}
+
+          
     </body>
 </body>
 </html>
