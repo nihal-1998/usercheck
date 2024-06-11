@@ -1,0 +1,25 @@
+"amount","previousBalance","transactionStatus","transanctionRelatedType","transanctionTime","transanctionType","contestId","fixtureDisplayName","fixtureId","contestName","fixtureStartDate"
+104,104,"Success","Withdrawal","2024-06-09T02:55:11.743Z","Debit",,,,,
+20,84,"Success","Winnings","2024-06-08T17:54:20.568Z","Credit","6661e3dc863cf4c61b0996c3","NED vs SA",72844,"Head To Head ","2024-06-08T14:30:00.000Z"
+12,96,"Success","EntryFee","2024-06-08T12:43:16.439Z","Debit","6661e3dc863cf4c61b0996c3","NED vs SA",72844,"Head To Head ","2024-06-08T14:30:00.000Z"
+50,46,"Success","Winnings","2024-06-07T18:00:07.325Z","Credit","666315449a5d16bdb460451f","CAN vs IRE",72840,"Game of 3","2024-06-07T14:30:00.000Z"
+30,16,"Success","Winnings","2024-06-07T18:00:07.309Z","Credit","666236cc9a5d16bdb44cd2a4","CAN vs IRE",72840,"Head To Head","2024-06-07T14:30:00.000Z"
+20,36,"Success","EntryFee","2024-06-07T14:22:11.569Z","Debit","666315449a5d16bdb460451f","CAN vs IRE",72840,"Game of 3","2024-06-07T14:30:00.000Z"
+17.3,53.3,"Success","EntryFee","2024-06-07T14:21:16.881Z","Debit","666236cc9a5d16bdb44cd2a4","CAN vs IRE",72840,"Head To Head","2024-06-07T14:30:00.000Z"
+20,33.3,"Success","Winnings","2024-06-06T19:51:04.916Z","Credit","6661d1e9fb0f49f7665dfc0d","USA vs PAK",72838,"Head To Head ","2024-06-06T15:30:00.000Z"
+30,3.3,"Success","Winnings","2024-06-06T19:51:04.900Z","Credit","6661d1e3fb0f49f7665dfa1e","USA vs PAK",72838,"Head To Head","2024-06-06T15:30:00.000Z"
+11.4,14.7,"Success","EntryFee","2024-06-06T15:13:59.330Z","Debit","6661d1e9fb0f49f7665dfc0d","USA vs PAK",72838,"Head To Head ","2024-06-06T15:30:00.000Z"
+17.1,31.8,"Success","EntryFee","2024-06-06T15:13:39.556Z","Debit","6661d1e3fb0f49f7665dfa1e","USA vs PAK",72838,"Head To Head","2024-06-06T15:30:00.000Z"
+30,1.8,"Success","Winnings","2024-06-05T17:20:26.645Z","Credit","665f26dfa3fb5122c4f846fe","IND vs IRE",72836,"Head To Head","2024-06-05T14:30:00.000Z"
+19,20.8,"Success","EntryFee","2024-06-05T04:54:46.899Z","Debit","665fd651fb0f49f7661107ae","IND vs IRE",72836,"Game of 3","2024-06-05T14:30:00.000Z"
+17.1,37.9,"Success","EntryFee","2024-06-05T04:53:40.595Z","Debit","665f26dfa3fb5122c4f846fe","IND vs IRE",72836,"Head To Head","2024-06-05T14:30:00.000Z"
+11.4,26.5,"Success","Refund","2024-06-04T18:58:04.674Z","Credit","665e6e27fb0f49f766db8778","ENG vs SCO",72832,"Winner takes all ","2024-06-04T14:30:00.000Z"
+17.1,9.4,"Success","Refund","2024-06-04T18:58:04.654Z","Credit","665ddbd1a3fb5122c4f82c2a","ENG vs SCO",72832,"Winner takes all","2024-06-04T14:30:00.000Z"
+5.7,3.7,"Success","Refund","2024-06-04T16:05:00.250Z","Credit","665ddbcca3fb5122c4f82c1e","NED vs NEP",72833,"Ben 10 ","2024-06-04T15:30:00.000Z"
+5.7,9.4,"Success","EntryFee","2024-06-04T06:17:33.306Z","Debit","665ddbcca3fb5122c4f82c1e","NED vs NEP",72833,"Ben 10 ","2024-06-04T15:30:00.000Z"
+17.1,26.5,"Success","EntryFee","2024-06-04T06:16:35.951Z","Debit","665ddbcca3fb5122c4f82c11","NED vs NEP",72833,"Head To Head","2024-06-04T15:30:00.000Z"
+17.1,43.6,"Success","EntryFee","2024-06-04T06:13:54.305Z","Debit","665ddbd1a3fb5122c4f82c2a","ENG vs SCO",72832,"Head To Head","2024-06-04T14:30:00.000Z"
+11.4,55,"Success","EntryFee","2024-06-04T06:13:39.086Z","Debit","665e6e27fb0f49f766db8778","ENG vs SCO",72832,"Head To Head ","2024-06-04T14:30:00.000Z"
+50,5,"Success","Credit","2024-06-04T06:10:02.828Z","Credit",,,,,
+5,0,"Success","Cash Bonus","2024-04-30T04:37:38.836Z","Credit",,,,,
+5,0,"Success","Signup Bonus","2024-04-30T04:37:38.829Z","Credit",,,,,
