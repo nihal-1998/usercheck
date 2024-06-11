@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <p>Debit Sum: {{ debit_sum }}</p>
+        <p>Credit Sum: {{ credit_sum }}</p>
+        <p>Difference: {{ difference }}</p>
+        
+
+        <!-- <h2>Winning Links</h2>
+            {% if winnings_links %}
+            <table>
+                <tr>
+                    
+                    <th>#</th>
+                    <th>Contest ID</th>
+                   
+                    <th>Link</th>
+                    
+                </tr>
+                {% for link in winnings_links %}
+                <tr>
+                    <td>{{ loop.index }}</td> 
+                    <td>{{ link.split('/')[-1] }}</td>
+                   
+                    <td><a href="{{ link }}" target="_blank">{{ link }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>No winnings links to display.</p>
+            {% endif %} -->
+
+            <h2>Winning Links</h2>
+            {% if winnings_info %}
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Contest ID</th>
+                    <th>Link</th>
+                    <th>Transaction Type</th>
+                </tr>
+                {% for win in winnings_info %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ win.contest_id }}</td>
+                    <td><a href="{{ win.link }}" target="_blank">{{ win.link }}</a></td>
+                    <td>{{ win.transaction_type }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>No winnings links to display.</p>
+            {% endif %}
+            
+
+            <h2>Refund Links</h2>
+            {% if winnings_info %}
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Contest ID</th>
+                    <th>Link</th>
+                    <th>Transaction Type</th>
+                </tr>
+                {% for refund in refund_info %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ refund.contest_id }}</td>
+                    <td><a href="{{ refund.link }}" target="_blank">{{ refund.link }}</a></td>
+                    <td>{{ refund.transaction_type }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>No winnings links to display.</p>
+            {% endif %}
+            
+            <h2>Validation Errors</h2>
+            {% if validation_errors %}
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Error</th>
+                </tr>
+                {% for error in validation_errors %}
+                <tr>
+                    <td>{{ loop.index }}</td> <!-- Adds a row number starting at 1 -->
+                    <td>{{ error }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>No validation errors.</p>
+            {% endif %}
+    </body>
+</body>
+</html>
