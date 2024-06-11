@@ -1,5 +1,8 @@
 import pandas as pd
 from flask import Flask, request, render_template
+from datetime import datetime
+import os
+import io
 
 app = Flask(__name__)
 
@@ -15,10 +18,12 @@ def upload():
         print('file upload called')
         file = request.files['file']
         #file.save(file.filename)
-        file.save('./Files/'+file.filename)
+        # file.save('./Files/'+file.filename)
+        stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
         print(file.filename)
         # df = pd.read_csv(file.filename)
-        df = pd.read_csv('./Files/'+file.filename)
+        # df = pd.read_csv('./Files/'+file.filename) OLD LOGIC COMMENTED - JUN 10 DAX
+        df = pd.read_csv(stream)
         
         print('---------------- New calculation ------------------')
 
@@ -29,51 +34,115 @@ def upload():
         print('Difference - :',format(credit_sum - debit_sum, ".2f") )
         difference = credit_sum - debit_sum
 
-        # new logic for the contestids
-        validation_errors = []
-        winnings_links = []
-        valid_contest_ids = df[df['transanctionRelatedType'].isin(['Refund', 'Winnings'])]
-        print("hiiiiiiiiiiiiiiiiii")
-        contest_counts = valid_contest_ids['contestId'].value_counts()
-        print('valid_contest_ids- :\n',valid_contest_ids)
-        print('contest_counts - :',contest_counts)
+        # Extend winnings and refund info with additional columns
+        # Count occurrences of each contestId where transanctionRelatedType is 'Winnings'
+        contest_id_counts = df[df['transanctionRelatedType'].isin(['Winnings', 'Refund','EntryFee'])]['contestId'].value_counts().to_dict()
+        contest_id_winRef_counts = df[df['transanctionRelatedType'].isin(['Winnings', 'Refund'])]['contestId'].value_counts().to_dict()
+        contest_id_enf_counts = df[df['transanctionRelatedType'] == "EntryFee"]['contestId'].value_counts().to_dict()
 
-        for contest_id, count in contest_counts.items():
-            print('contest_id : ',contest_id)
-            print('count : ',count)
-            print('Contest id repeatation -',df['contestId'].value_counts().get(contest_id))
-            # if count != 2 and df[(df['contestId'] == contest_id) & (df['transanctionRelatedType'].isin(['Refund', 'Winnings']))].any():
-            if df['contestId'].value_counts().get(contest_id) != 2:
-                validation_errors.append(f"Contest ID {contest_id} does not appear exactly twice as required.")
-                
-            elif df['contestId'].value_counts().get(contest_id) == 2:
-                # winnings_df = df[df['transanctionRelatedType'] == 'Winnings']
-                winnings_links.append("https://admin.americandream11.us/reports/ContestReport/" + str(contest_id))
-                print('winnings_links : ',winnings_links)
-        
-        # Generate links for winnings
-        # winnings_df = df[df['transanctionRelatedType'] == 'Winnings']
-        # winnings_links = ["https://admin.americandream11.us/reports/ContestReport/" + str(id) for id in winnings_df['contestId']]
-        
+        winnings_info = []
+        refund_info = []
+        Withdrawal_info = []
+        error_info = []
 
-        # Save results
-        # results = pd.DataFrame({
-        #     'Debit Sum': [debit_sum],
-        #     'Credit Sum': [credit_sum],
-        #     'Difference': [difference]
-        # })
+        # Winning
+        for index, row in df[df['transanctionRelatedType'] == 'Winnings'].iterrows(): 
+
+            enf_count = contest_id_enf_counts.get(row['contestId'], 0)
+            win_ref_count = contest_id_winRef_counts.get(row['contestId'], 0)
+
+
+            if enf_count >= win_ref_count:
+                winnings_info.append({
+                                        'link': "https://admin.americandream11.us/reports/ContestReport/" + str(row['contestId']),
+                                        'amount': row['amount'],
+                                        'contest_id': row['contestId'],
+                                        'transaction_type': row['transanctionRelatedType'],
+                                        'transaction_time': datetime.strptime(row['transanctionTime'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y'),
+                                        'fixture_display_name': row['fixtureDisplayName'],
+                                        'contest_name': row['contestName'],
+                                        'fixture_start_date': datetime.strptime(row['fixtureStartDate'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y'),
+                                        'total_count': contest_id_counts.get(row['contestId'], 0),
+                                        'Win_Ref_count': win_ref_count,
+                                        'EntryFee_count': enf_count
+                                    } )
+            else:
+                print('error_message',f"Contest ID {row['contestId']} has more winnings/refund entries ({win_ref_count}) than entry fees ({enf_count}).")
+                error_info.append({"error_message": f"Contest ID {row['contestId']} has more winnings/refund entries ({win_ref_count}) than entry fees ({enf_count})."})
+
+        # Refund
+        for index, row in df[df['transanctionRelatedType'] == 'Refund'].iterrows(): 
+
+            enf_count = contest_id_enf_counts.get(row['contestId'], 0)
+            win_ref_count = contest_id_winRef_counts.get(row['contestId'], 0)
+
+
+            if enf_count >= win_ref_count:
+                refund_info.append({
+                                    'link': "https://admin.americandream11.us/reports/ContestReport/" + str(row['contestId']),
+                                    'amount': row['amount'],
+                                    'contest_id': row['contestId'],
+                                    'transaction_type': row['transanctionRelatedType'],
+                                    'transaction_time': datetime.strptime(row['transanctionTime'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y'),
+                                    'fixture_display_name': row['fixtureDisplayName'],
+                                    'contest_name': row['contestName'],
+                                    'fixture_start_date': row['fixtureStartDate'],
+                                    'total_count': contest_id_counts.get(row['contestId'], 0),
+                                    'Win_Ref_count': win_ref_count,
+                                    'EntryFee_count': enf_count
+                                } )
+            else:
+                error_info.append({"error_message": f"Contest ID {row['contestId']} has more winnings/refund entries ({win_ref_count}) than entry fees ({enf_count})."})
+
+        #Withdrawal
+        for index, row in df[df['transanctionRelatedType'] == 'Withdrawal'].iterrows(): 
+
+            if row['transactionStatus'] == 'Success' : # or row['transactionStatus'] ==  'Pending'
+                Withdrawal_info.append({
+                                    
+                                    'amount': row['amount'],
+                                    'transaction_type': row['transanctionRelatedType'],
+                                    'transaction_time': datetime.strptime(row['transanctionTime'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y'),
+                                    'transaction_status' : row['transactionStatus']
+                                } )
+            #else:
+                # error_info.append({"error_message": f"Amount of {row['amount']} withdrwal has failed on .{datetime.strptime(row['transanctionTime'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y')}"})
+
+        Withdrawal_info = sorted(Withdrawal_info, key=lambda x: datetime.strptime(x['transaction_time'], '%m/%d/%Y'), reverse=True)
+        latest_withdrawal_date = ""
+        if Withdrawal_info:
+            latest_withdrawal = Withdrawal_info[0]
+            latest_withdrawal_date = datetime.strptime(latest_withdrawal['transaction_time'], '%m/%d/%Y')
+        # else:
+        #     latest_withdrawal_date = "No withdrawals"
+
+        # Desc order with Date
+        # Sorting winnings_info and refund_info
+        winnings_info = sorted(winnings_info, key=lambda x: datetime.strptime(x['transaction_time'], '%m/%d/%Y'), reverse=True)
+        if latest_withdrawal_date != "":
+         winnings_info = [entry for entry in winnings_info if datetime.strptime(entry['transaction_time'], '%m/%d/%Y') >= latest_withdrawal_date]
+        
+        refund_info = sorted(refund_info, key=lambda x: datetime.strptime(x['transaction_time'], '%m/%d/%Y'), reverse=True)
+        if latest_withdrawal_date != "":
+         refund_info = [entry for entry in refund_info if datetime.strptime(entry['transaction_time'], '%m/%d/%Y') >= latest_withdrawal_date]
+
+        Withdrawal_info = sorted(Withdrawal_info, key=lambda x: datetime.strptime(x['transaction_time'], '%m/%d/%Y'), reverse=True)
+
 
         resultObj = {
             'debit_sum': debit_sum,
             'credit_sum': credit_sum,
             'difference': difference,
-            'validation_errors': validation_errors,
-            'winnings_links': winnings_links
+            'winnings_info': winnings_info,
+            'refund_info': refund_info,
+            'Withdrawal_info' : Withdrawal_info,
+            'latest_withdrawal_date' : latest_withdrawal_date,
+            'validation_errors' : error_info
         }
-
         # results.to_csv('results.csv', index=False)
 
-        
+        # os.remove('./Files/'+file.filename)
+
         return render_template('result.html', **resultObj )
     
 
