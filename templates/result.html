@@ -81,8 +81,8 @@
                     {% for win in winnings_info %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <!-- <td><a href="{{ win.link }}" target="_blank">{{ win.contest_id }}</a></td> -->
-                        <td ><a href="#" data-url="{{ win.link }}" class="dynamic-link">{{ win.contest_id }}</a></td> 
+                        <td><a href="{{ win.link }}" target="_blank">{{ win.contest_id }}</a></td>
+                        <!-- <td ><a href="#" data-url="{{ win.link }}" class="dynamic-link">{{ win.contest_id }}</a></td>  -->
                         <td>{{ win.amount }}</td>
                         <td>{{ win.transaction_type }}</td>
                         <td>{{ win.transaction_time }}</td>
@@ -121,9 +121,9 @@
                     <tr>
                         <td>{{ loop.index }}</td>
                         <!-- <td>{{ refund.contest_id }}</td> -->
-                         <td ><a href="#" data-url="{{ refund.link }}" class="dynamic-link">{{ refund.contest_id }}</a></td> 
+                        <td><a href="{{ refund.link }}" target="_blank">{{ refund.contest_id }}</a></td>
+                         <!-- <td ><a href="#" data-url="{{ refund.link }}" class="dynamic-link">{{ refund.contest_id }}</a></td>  -->
                         
-                         
                         <td>{{ refund.amount }}</td>
                         <td>{{ refund.transaction_type }}</td>
                         <td>{{ refund.transaction_time }}</td>
@@ -217,7 +217,7 @@
             <div id="rightPane">
 
             </div>
-            <script>
+            <!-- <script>
                 document.querySelectorAll('.dynamic-link').forEach(function(link) {
                     link.addEventListener('click', function(event) {
                         event.preventDefault();
@@ -229,7 +229,7 @@
                         console.log('url processed');
                     });
                 });
-            </script>
+            </script> -->
           
     </body>
 </body>
