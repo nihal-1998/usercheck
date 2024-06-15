@@ -167,9 +167,3 @@ if __name__ == '__main__':
     print('triggred')
     app.run(debug=True)
 
-
-
-
-
-
-
