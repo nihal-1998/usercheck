@@ -43,6 +43,7 @@ def upload():
         winnings_info = []
         refund_info = []
         Withdrawal_info = []
+        credit_info =[]
         error_info = []
 
         # Winning
@@ -108,6 +109,16 @@ def upload():
             #else:
                 # error_info.append({"error_message": f"Amount of {row['amount']} withdrwal has failed on .{datetime.strptime(row['transanctionTime'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y')}"})
 
+        #Deposit
+
+        for index, row in df[df['transanctionRelatedType'] == 'Credit'].iterrows(): 
+            credit_info.append({
+                  'amount': row['amount'],
+                  'transaction_type': row['transanctionRelatedType'],
+                  'transaction_time': datetime.strptime(row['transanctionTime'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%m/%d/%Y'),
+                  'transaction_status' : row['transactionStatus']
+            })
+        
         Withdrawal_info = sorted(Withdrawal_info, key=lambda x: datetime.strptime(x['transaction_time'], '%m/%d/%Y'), reverse=True)
         latest_withdrawal_date = ""
         if Withdrawal_info:
@@ -137,6 +148,7 @@ def upload():
             'refund_info': refund_info,
             'Withdrawal_info' : Withdrawal_info,
             'latest_withdrawal_date' : latest_withdrawal_date,
+            'credit_info' : credit_info,
             'validation_errors' : error_info
         }
         # results.to_csv('results.csv', index=False)
