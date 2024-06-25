@@ -27,8 +27,8 @@ def upload():
         
         print('---------------- New calculation ------------------')
 
-        debit_sum = df.loc[df['transanctionRelatedType'].isin(['EntryFee', 'Withdrawal','Admin Deduction','Admin Credit']) & (df['transactionStatus'].isin(['Success','Pending'])), 'amount'].sum()
-        credit_sum = df.loc[df['transanctionRelatedType'].isin(['Signup Bonus', 'Credit', 'Winnings', 'Refund']) & (df['transactionStatus'] == 'Success'), 'amount'].sum()
+        debit_sum = df.loc[df['transanctionRelatedType'].isin(['EntryFee', 'Withdrawal','Admin Deduction']) & (df['transactionStatus'].isin(['Success','Pending'])), 'amount'].sum()
+        credit_sum = df.loc[df['transanctionRelatedType'].isin(['Signup Bonus', 'Credit', 'Winnings', 'Refund','Admin Credit']) & (df['transactionStatus'] == 'Success'), 'amount'].sum()
         print('Debit Sum - :',debit_sum)
         print('Credit Sum - :',credit_sum)
         print('Difference - :',format(credit_sum - debit_sum, ".2f") )
